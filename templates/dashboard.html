@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Stock Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #181a1b; color: #f8f9fa; }
+        .navbar { background: #e50914; }
+        .navbar-brand { color: #fff !important; font-weight: bold; }
+        .section-title { color: #e50914; margin-top: 2rem; margin-bottom: 1rem; }
+        .plot-card {
+            background: #23272a;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .plot-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 4px 24px rgba(229,9,20,0.15);
+        }
+        .plot-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #181a1b;
+        }
+        .plot-label { color: #aaa; font-size: 1rem; margin-top: 0.5rem; }
+        @media (max-width: 768px) {
+            .plot-card { padding: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Stock Dashboard</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <form method="POST" class="mb-4">
+        <div class="input-group input-group-lg">
+            <span class="input-group-text bg-dark text-light">Stock</span>
+            <select class="form-select" name="stock">
+                <option value="" {% if not selected_stock %}selected{% endif %}>Select a stock...</option>
+                {% for stock in available_stocks %}
+                    <option value="{{ stock.key }}" {% if selected_stock == stock.key %}selected{% endif %}>{{ stock.name }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-danger" type="submit">Show Analysis</button>
+        </div>
+        <div class="form-text text-light">Select a stock to view analysis.</div>
+    </form>
+    {% if not selected_stock %}
+        <div class="alert alert-info mt-4">Please select a stock from the dropdown above to view analysis.</div>
+    {% endif %}
+    {% if selected_stock and selected_stock != 'all' %}
+        <h2 class="section-title">{{ selected_stock|capitalize }} Analysis</h2>
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="plot-card">
+                    <h5 style="color:#e50914;">Stock Analysis Summary</h5>
+                    <pre style="background:#181a1b; color:#f8f9fa; border:none; font-size:1rem;">{{ summary }}</pre>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_price_ma.png" class="plot-img mb-2"><div class="plot-label">Price & MA</div></div></div>
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_monthly_close.png" class="plot-img mb-2"><div class="plot-label">Monthly Close</div></div></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_volume.png" class="plot-img mb-2"><div class="plot-label">Volume</div></div></div>
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_correlation.png" class="plot-img mb-2"><div class="plot-label">Correlation</div></div></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_returns_hist.png" class="plot-img mb-2"><div class="plot-label">Returns Histogram</div></div></div>
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_returns_box.png" class="plot-img mb-2"><div class="plot-label">Returns Boxplot</div></div></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12"><div class="plot-card"><img src="/plots/{{ selected_stock }}_seasonal_decompose.png" class="plot-img mb-2"><div class="plot-label">Seasonal Decomposition</div></div></div>
+        </div>
+    {% elif selected_stock == 'all' %}
+        <h2 class="section-title">Stock Comparison</h2>
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div class="plot-card">
+                    <img src="/plots/netflix_vs_google.png" class="plot-img mb-2" alt="Stock Comparison">
+                    <div class="plot-label">Stock Close Price Comparison</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12">
+                <div class="plot-card">
+                    <h5 style="color:#e50914;">Key Stats</h5>
+                    <pre style="background:#181a1b; color:#f8f9fa; border:none; font-size:1rem;">{{ comparison_stats }}</pre>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

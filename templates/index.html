@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stock Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #181a1b; color: #f8f9fa; }
+        .navbar { background: #e50914; }
+        .navbar-brand { color: #fff !important; font-weight: bold; letter-spacing: 1px; }
+        .nav-link { color: #fff !important; }
+        .nav-link.active { font-weight: bold; text-decoration: underline; }
+        .summary-box {
+            background: #23272a;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+            margin-bottom: 2rem;
+        }
+        .summary-box h4 { color: #e50914; }
+        .plot-card {
+            background: #23272a;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .plot-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 4px 24px rgba(229,9,20,0.15);
+        }
+        .plot-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #444;
+            background: #181a1b;
+        }
+        pre { color: #f8f9fa; background: #181a1b; border: none; }
+        @media (max-width: 768px) {
+            .summary-box, .plot-card { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Stock Analyzer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+                <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="text-center py-5">
+        <h1 class="display-4" style="color:#e50914;">Welcome to Stock Analyzer</h1>
+        <p class="lead">Explore interactive visualizations and insights from your uploaded stocks.<br>Login to access your personalized dashboard.</p>
+        <a href="/login" class="btn btn-danger btn-lg mt-3">Login</a>
+        <a href="/dashboard" class="btn btn-outline-light btn-lg mt-3 ms-2">View Dashboard</a>
+    </div>
+    <!-- Analysis summary removed from home page -->
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
